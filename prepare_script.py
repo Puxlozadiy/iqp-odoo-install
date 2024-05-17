@@ -43,16 +43,29 @@ process.stdin.write(f"pip3 install wheel")
 process.stdin.write(f"mkdir custom-addons")
 process.stdin.write(f"exit") """
 
+
+
 sh_script = f"""
-sudo apt update && sudo apt upgrade
-sudo useradd -m -d {linux_user_home} -U -r -s /usr/sbin/nologin {linux_user}
-sudo -u {linux_user} -s /bin/bash -c 'mkdir 16'
+#!/bin/bash
+
+sudo apt install build-essential wget git python3-pip python3-dev python3-venv python3-wheel libfreetype6-dev libxml2-dev libzip-dev libsasl2-dev python3-setuptools libjpeg-dev zlib1g-dev libpq-dev libxslt1-dev libldap2-dev libtiff5-dev libopenjp2-7-dev
+sudo apt-get install postgresql
+sudo su - postgres -c "createuser -s {postgres_user}"
+sudo su - postgres -c "alter user {postgres_user} with encrypted password '{postgres_user_pass}'"
+sudo -u postgres psql
+{psql_commands}
+sudo apt install wkhtmltopdf
+
+sudo su - odoo16 -s /bin/bash -c "git clone https://www.github.com/odoo/odoo --depth 1 --branch {odoo_version} {odoo_path}"
+sudo su - odoo16 -s /bin/bash -c "python3 -m venv {linux_user_home}/{odoo_path}/{venv_name}"
+source {linux_user_home}/{odoo_path}/{venv_name}/bin/activate
+pip3 install wheel
+pip3 install {linux_user_home}/{odoo_path}/requirements.txt
 """
 
 with open(f"./install.sh","w") as f:
     f.write(sh_script)
 
-subprocess.Popen("sudo sh install.sh", shell=True)
 
 """ with open(f"/etc/{conf_name}","w") as f:
     f.write(get_conf())
