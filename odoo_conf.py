@@ -13,6 +13,8 @@ def get_conf(
 admin_passwd = {admin_password}
 db_user = {postgres_user}
 db_password = {postgres_user_pass}
+db_host = False
+db_port = False
 addons_path = {install_path}/addons,{install_path}/custom-addons
 logfile = /var/log/odoo/{logfile}
 http_port = {http_port}

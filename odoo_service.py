@@ -15,7 +15,7 @@ SyslogIdentifier=odoo
 PermissionsStartOnly=true
 User={linux_user}
 Group={linux_user}
-ExecStart={install_path}{venv_name}/bin/python3 {install_path}/odoo-bin -c /etc/{conf_name}
+ExecStart={install_path}/{venv_name}/bin/python3 {install_path}/odoo-bin -c /etc/{conf_name}
 StandardOutput=journal+console
 [Install]
 WantedBy=multi-user.target
