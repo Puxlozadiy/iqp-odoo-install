@@ -1,17 +1,22 @@
 def get_conf(
-    admin_password="Parole.Ogre777"
+    admin_password="Parole.Ogre777",
+    postgres_user="odoo",
+    postgres_user_pass="Parole.Ogre777",
+    install_path="/odoo/16",
+    logfile="odoo16.log",
+    http_port="40069",
+    longpolling_port="40072",
+    proxy="True",
     ):
     s = f"""
 [options]
 admin_passwd = {admin_password}
-db_host = False
-db_port = False
-db_user = odoo16 
-db_password = Parole.Ogre777
-addons_path = /odoo/16/addons,/odoo/16/custom-addons
-logfile = /var/log/odoo/odoo16.log
-http_port = 40069
-longpolling_port = 40072
-proxy_mode = True
+db_user = {postgres_user}
+db_password = {postgres_user_pass}
+addons_path = {install_path}/addons,{install_path}/custom-addons
+logfile = /var/log/odoo/{logfile}
+http_port = {http_port}
+longpolling_port = {longpolling_port}
+proxy_mode = {proxy}
 """
     return s

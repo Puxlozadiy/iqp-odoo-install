@@ -37,7 +37,20 @@ with open(f"./install.sh","w") as f:
 
 
 with open(f"/etc/{conf_name}","w") as f:
-    f.write(get_conf())
+    f.write(get_conf(
+        admin_password="Parole.Ogre777",
+        postgres_user=postgres_user,
+        postgres_user_pass=postgres_user_pass,
+        install_path=f"{linux_user_home}/{odoo_path}",
+        logfile="odoo16.log",
+        http_port="40069",
+        longpolling_port="40072",
+    ))
 
 with open(f"/etc/systemd/system/{service_name}","w") as f:
-    f.write(get_service(venv_path=f"{linux_user_home}/{odoo_path}/{venv_name}/"))
+    f.write(get_service(
+        linux_user=linux_user,
+        install_path=f"{linux_user_home}/{odoo_path}/",
+        venv_name=venv_name,
+        conf_name=conf_name
+        ))
