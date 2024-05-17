@@ -26,7 +26,7 @@ sudo apt install wkhtmltopdf
 sudo su - odoo16 -s /bin/bash -c "git clone https://www.github.com/odoo/odoo --depth 1 --branch {odoo_version} {odoo_path}"
 sudo su - odoo16 -s /bin/bash -c "python3 -m venv {linux_user_home}/{odoo_path}/{venv_name}"
 sudo su - odoo16 -s /bin/bash -c "source {linux_user_home}/{odoo_path}/{venv_name}/bin/activate && pip3 install wheel && pip3 install -r {linux_user_home}/{odoo_path}/requirements.txt"
-sudo su - odoo16 -s /bin/bash -c "mkdir custom-addons"
+sudo su - odoo16 -s /bin/bash -c "mkdir {odoo_path}/custom-addons"
 
 sudo systemctl daemon-reload
 sudo systemctl start {service_name}
