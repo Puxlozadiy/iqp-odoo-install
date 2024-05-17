@@ -18,8 +18,7 @@ alter user {postgres_user} with encrypted password '{postgres_user_pass}';
 \\q
 """
 
-process = subprocess.Popen("sudo apt update && sudo apt upgrade", stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, shell=True)
-process.stdin.write('sudo apt update && sudo apt upgrade')
+""" process = subprocess.Popen("sudo apt update && sudo apt upgrade", stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, shell=True)
 process.stdin.write(f'sudo useradd -m -d {linux_user_home} -U -r -s /usr/sbin/nologin {linux_user}')
 process.stdin.write(f'sudo apt install build-essential wget git python3-pip python3-dev python3-venv python3-wheel libfreetype6-dev libxml2-dev libzip-dev libsasl2-dev python3-setuptools libjpeg-dev zlib1g-dev libpq-dev libxslt1-dev libldap2-dev libtiff5-dev libopenjp2-7-dev')
 process.stdin.write(f'sudo apt-get install postgresql')
@@ -35,10 +34,28 @@ process.stdin.write(f"source {venv_name}/bin/activate")
 process.stdin.write(f"pip3 install wheel")
 process.stdin.write(f"mkdir custom-addons")
 process.stdin.write(f"exit")
+process = subprocess.Popen(f"sudo su - {linux_user} -s /bin/bash", stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, shell=True)
+process.stdin.write(f"git clone https://www.github.com/odoo/odoo --depth 1 --branch {odoo_version} {odoo_path}")
+process.stdin.write(f"cd {odoo_path}")
+process.stdin.write(f"python3 -m venv {venv_name}")
+process.stdin.write(f"source {venv_name}/bin/activate")
+process.stdin.write(f"pip3 install wheel")
+process.stdin.write(f"mkdir custom-addons")
+process.stdin.write(f"exit") """
 
+sh_script = f"""
+sudo apt update && sudo apt upgrade
+sudo useradd -m -d {linux_user_home} -U -r -s /usr/sbin/nologin {linux_user}
+sudo -u {linux_user} -s /bin/bash -c 'mkdir 16'
+"""
 
-with open(f"/etc/{conf_name}","w") as f:
+with open(f"./install.sh","w") as f:
+    f.write(sh_script)
+
+subprocess.Popen("sudo sh install.sh", shell=True)
+
+""" with open(f"/etc/{conf_name}","w") as f:
     f.write(get_conf())
 
 with open(f"/etc/systemd/system/{service_name}","w") as f:
-    f.write(get_service())
+    f.write(get_service()) """
