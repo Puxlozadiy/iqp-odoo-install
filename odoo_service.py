@@ -2,11 +2,12 @@ def get_service(
     linux_user="odoo16",
     install_path="",
     venv_name="",
-    conf_name=""
+    conf_name="",
+    description=""
     ):
     s = f"""
 [Unit]
-Description=Odoo
+Description={description}
 Requires=postgresql.service
 After=network.target postgresql.service
 [Service]
