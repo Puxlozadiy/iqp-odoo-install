@@ -3,20 +3,20 @@ import subprocess
 from odoo_service import get_service
 from odoo_conf import get_conf
  
-linux_user = "odoo17"
-linux_user_home = "/odoo/17"
-postgres_user = "o17"
+linux_user = "odoo16"
+linux_user_home = "/odoo/16"
+postgres_user = "test"
 postgres_user_pass = "Parole.Ogre777"
-odoo_version = "17.0"
-odoo_path = "o17"
-venv_name = "o17-venv"
-conf_name = "odoo-o17.conf"
-service_name = "odoo-o17.service"
+odoo_version = "16.0"
+odoo_path = "test"
+venv_name = "test-venv"
+conf_name = "odoo-test.conf"
+service_name = "odoo-test.service"
 admin_password = "Parole.Ogre777"
-logfile="odoo-o17.log"
-http_port="40269"
-longpolling_port="40272"
-
+logfile="odoo-test.log"
+http_port="40169"
+longpolling_port="40172"
+description="Odoo test"
 
 sh_script = f"""
 #!/bin/bash
@@ -43,7 +43,7 @@ with open(f"./install.sh","w") as f:
     
 with open(f"./copy-addons.sh","w") as f:
     f.write(f"""sudo cp -r default-addons/. {linux_user_home}/{odoo_path}/custom-addons
-sudo chown {linux_user} {linux_user_home}/{odoo_path}/custom-addons
+sudo chown {linux_user}:{linux_user} {linux_user_home}/{odoo_path}/custom-addons
 """)
 
 
@@ -63,5 +63,6 @@ with open(f"/etc/systemd/system/{service_name}","w") as f:
         linux_user=linux_user,
         install_path=f"{linux_user_home}/{odoo_path}",
         venv_name=venv_name,
-        conf_name=conf_name
+        conf_name=conf_name,
+        description=description
         ))
