@@ -18,6 +18,8 @@ http_port="40169"
 longpolling_port="40172"
 description="Odoo test"
 
+copy_default_addons = False
+
 sh_script = f"""
 #!/bin/bash
 
@@ -40,11 +42,12 @@ unzip default-addons.zip
 
 with open(f"./install.sh","w") as f:
     f.write(sh_script)
-    
-with open(f"./copy-addons.sh","w") as f:
-    f.write(f"""sudo cp -r default-addons/. {linux_user_home}/{odoo_path}/custom-addons
-sudo chown {linux_user}:{linux_user} {linux_user_home}/{odoo_path}/custom-addons
-""")
+
+if copy_default_addons:
+    with open(f"./copy-addons.sh","w") as f:
+        f.write(f"""sudo cp -r default-addons/. {linux_user_home}/{odoo_path}/custom-addons
+    sudo chown {linux_user}:{linux_user} {linux_user_home}/{odoo_path}/custom-addons
+    """)
 
 
 with open(f"/etc/{conf_name}","w") as f:
