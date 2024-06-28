@@ -5,18 +5,18 @@ from odoo_conf import get_conf
  
 linux_user = "odoo16"
 linux_user_home = "/odoo/16"
-postgres_user = "test"
+postgres_user = "odoo16_dm_live"
 postgres_user_pass = "Parole.Ogre777"
 odoo_version = "16.0"
-odoo_path = "test"
-venv_name = "test-venv"
-conf_name = "odoo-test.conf"
-service_name = "odoo-test.service"
+odoo_path = "dm-live"
+venv_name = "dm-live-venv"
+conf_name = "odoo16-dm-live.conf"
+service_name = "odoo16-dm-live.service"
 admin_password = "Parole.Ogre777"
-logfile="odoo-test.log"
-http_port="40169"
-longpolling_port="40172"
-description="Odoo test"
+logfile="odoo16-dm-live.log"
+http_port="40469"
+longpolling_port="40472"
+description="Odoo dm live"
 
 copy_default_addons = False
 
@@ -43,11 +43,11 @@ unzip default-addons.zip
 with open(f"./install.sh","w") as f:
     f.write(sh_script)
 
-if copy_default_addons:
-    with open(f"./copy-addons.sh","w") as f:
-        f.write(f"""sudo cp -r default-addons/. {linux_user_home}/{odoo_path}/custom-addons
-    sudo chown {linux_user}:{linux_user} {linux_user_home}/{odoo_path}/custom-addons
-    """)
+
+with open(f"./copy-addons.sh","w") as f:
+    f.write(f"""sudo cp -r default-addons/. {linux_user_home}/{odoo_path}/custom-addons
+sudo chown {linux_user}:{linux_user} {linux_user_home}/{odoo_path}/custom-addons
+""")
 
 
 with open(f"/etc/{conf_name}","w") as f:
