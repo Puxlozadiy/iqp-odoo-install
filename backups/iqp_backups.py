@@ -16,6 +16,7 @@ def do_backup(config):
         response = requests.post(config['url'], data={"name": config['db_name'], "master_pwd": config['master_pwd']})
         if response.headers['Content-Type']=='application/octet-stream; charset=binary':
             file_name = response.headers['Content-Disposition'][response.headers['Content-Disposition'].rfind('\'\'')+2:]
+            os.mkdir(f"{absolute_path}{config['save_path']}")
             with open(f"{absolute_path}{config['save_path']}{file_name}", mode="wb") as file:
                 file.write(response.content)
                 
